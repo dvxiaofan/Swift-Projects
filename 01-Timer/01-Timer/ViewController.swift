@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var pauseBtn: UIButton!
     
     var counter = 0.0
-    var timer = NSTimer()
+    var timer = Timer()
     var isPlaying = false
 
     override func viewDidLoad() {
@@ -25,38 +25,38 @@ class ViewController: UIViewController {
         
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
 
-    @IBAction func beginBtnClick(sender: AnyObject) {
+    @IBAction func beginBtnClick(_ sender: AnyObject) {
         if isPlaying {
             return
         }
-        beginBtn.enabled = false
-        pauseBtn.enabled = true
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "updateCounter", userInfo: nil, repeats: true)
+        beginBtn.isEnabled = false
+        pauseBtn.isEnabled = true
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.updateCounter), userInfo: nil, repeats: true)
         isPlaying = true
     }
     
-    @IBAction func pauseBtnClick(sender: AnyObject) {
-        beginBtn.enabled = true
-        pauseBtn.enabled = false
+    @IBAction func pauseBtnClick(_ sender: AnyObject) {
+        beginBtn.isEnabled = true
+        pauseBtn.isEnabled = false
         isPlaying = false
         // 计时器停止
         timer.invalidate()
     }
     
-    @IBAction func resetBtnClick(sender: AnyObject) {
+    @IBAction func resetBtnClick(_ sender: AnyObject) {
         timer.invalidate()
-        beginBtn.enabled = true
-        pauseBtn.enabled = false
+        beginBtn.isEnabled = true
+        pauseBtn.isEnabled = false
         isPlaying = false
         counter = 0.0
         timeLabel.text = String(counter)
     }
     
-    @objc private func updateCounter() {
+    @objc fileprivate func updateCounter() {
         counter += 0.1
         timeLabel.text = String(format: "%.1f", counter)
     }
