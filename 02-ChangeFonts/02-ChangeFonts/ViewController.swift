@@ -33,15 +33,15 @@ class ViewController: UIViewController {
         fontTableView.dataSource = self
         
         // 遍历 font
-        for family in UIFont.familyNames() {
-            for font in UIFont.fontNamesForFamilyName(family) {
+        for family in UIFont.familyNames {
+            for font in UIFont.fontNames(forFamilyName: family) {
                 fontNames.append(font)
             }
         }
     }
     
     // 切换 font
-    @IBAction func changeFontClick(sender: AnyObject) {
+    @IBAction func changeFontClick(_ sender: AnyObject) {
         fontIndex = (fontIndex + 1) % fontNames.count
         fontTableView.reloadData()
         
@@ -52,26 +52,26 @@ class ViewController: UIViewController {
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count;
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = fontTableView.dequeueReusableCellWithIdentifier("testCell", forIndexPath: indexPath)
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = fontTableView.dequeueReusableCell(withIdentifier: "testCell", for: indexPath)
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         
-        cell.textLabel?.text = data[indexPath.row]
-        cell.textLabel?.backgroundColor = UIColor.whiteColor()
+        cell.textLabel?.text = data[(indexPath as NSIndexPath).row]
+        cell.textLabel?.backgroundColor = UIColor.white
         cell.textLabel?.font = UIFont(name: self.fontNames[fontIndex], size: 16)
         
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
 }
